@@ -20,6 +20,7 @@ import { HomeComponent } from './home/home.component';
 import { FlightSearchComponent } from './flight-search/flight-search.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { CityPipe } from './shared/pipes/city.pipe';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { FormsModule } from '@angular/forms';
     NavComponent,
     HomeComponent,
     FlightSearchComponent,
+    CityPipe,
   ],
   imports: [
     BrowserModule,
