@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CityPipe } from './pipes/city.pipe';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
 import {
   MatButtonModule,
@@ -23,6 +23,7 @@ import { AsyncCityPipe } from './pipes/async-city.pipe';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     LayoutModule,
     MatButtonModule,
     MatCardModule,
@@ -35,6 +36,7 @@ import { AsyncCityPipe } from './pipes/async-city.pipe';
   ],
   exports: [
     FormsModule,
+    ReactiveFormsModule,
     CityPipe,
     AsyncCityPipe,
     LayoutModule,

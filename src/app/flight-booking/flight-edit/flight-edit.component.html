@@ -1,0 +1,59 @@
+<mat-card>
+  <mat-card-title>Edit Flight</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="editForm">
+
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="id"
+          placeholder="ID">
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="date"
+          placeholder="date">
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="from"
+          placeholder="from">
+        <mat-error *ngIf="editForm.controls['from'].hasError('city')">
+          Please enter a valid city!
+        </mat-error>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="to"
+          placeholder="to">
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="delayed"
+          placeholder="delayed">
+      </mat-form-field>
+
+      <pre>{{
+        editForm.controls['from'].errors | json
+      }}</pre>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button
+      mat-raised-button
+      (click)="save()"
+      color="primary">Save</button>
+  </mat-card-actions>
+</mat-card>
