@@ -31,4 +31,20 @@ export class FlightService {
         tap(flights => this.flights = flights )
       );
   }
+
+  getAirportCode(city: string): Observable<string> {
+    const url = 'http://www.angular.at/api/airport/code';
+
+    const headers = new HttpHeaders()
+                          .set('Accept', 'application/json');
+
+    const params = new HttpParams()
+                          .set('name', city);
+
+    return this.http
+      .get<string>(url, { headers, params })
+      .pipe(
+        tap(code => console.log(code))
+      );
+  }
 }

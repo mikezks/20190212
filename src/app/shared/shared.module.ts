@@ -13,10 +13,12 @@ import {
   MatSnackBarModule,
   MatToolbarModule
 } from '@angular/material';
+import { AsyncCityPipe } from './pipes/async-city.pipe';
 
 @NgModule({
   declarations: [
-    CityPipe
+    CityPipe,
+    AsyncCityPipe
   ],
   imports: [
     CommonModule,
@@ -34,6 +36,7 @@ import {
   exports: [
     FormsModule,
     CityPipe,
+    AsyncCityPipe,
     LayoutModule,
     MatButtonModule,
     MatCardModule,
