@@ -12,13 +12,46 @@ export class FlightSearchComponent implements OnInit {
 
   from: string = 'Graz';
   to: string = 'Hamburg';
-  flights: Flight[] = [];
-  selectedFlight: Flight;
+  flights: Flight[] = [
+    {
+      id: 1,
+      from: '',
+      to: '',
+      date: '',
+      delayed: false
+    }
+  ];
+  selectedFlight: Flight = {
+    id: 1,
+    from: '',
+    to: '',
+    date: '',
+    delayed: false
+  };
+
+  myFlight: Flight;
+  myFlights: Flight[];
+
+  basket: object = {
+    "3": true,
+    "5": true
+  };
 
   constructor(private flightService: FlightService) { }
 
   ngOnInit(): void {
     this.flights = this.flightService.flights;
+
+    this.myFlight = {
+      ...this.selectedFlight,
+      from: 'Madrid'
+    };
+
+    this.myFlight.id = 3;
+
+    this.myFlights = [
+      ...this.flights.slice(0, 1)
+    ];
   }
 
   search(): void {

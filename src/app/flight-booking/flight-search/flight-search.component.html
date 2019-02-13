@@ -31,34 +31,17 @@
   </mat-card-actions>
 </mat-card>
 
-<mat-card
-  *ngIf="flights.length > 0">
-
-  <table class="table table-contensed">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>from</th>
-        <th>to</th>
-        <th>date</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tr
-      *ngFor="let flight of flights"
-      [class.active]="flight === selectedFlight">
-      <td>{{ flight.id }}</td>
-      <td>{{ flight.from | city }}</td>
-      <td>{{ flight.to | asyncCity | async }}</td>
-      <td>{{ flight.date | date:'dd.MM.yyyy HH:mm' }}</td>
-      <td>
-        <a
-          (click)="select(flight)">Select</a>
-      </td>
-    </tr>
-  </table>
-
-</mat-card>
+<div class="row">
+    <div
+      *ngFor="let f of flights" 
+      class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <app-flight-card
+          [item]="f"
+          [selected]="basket[f.id]"
+          (selectedChange)="basket[f.id] = $event">
+      </app-flight-card>
+    </div>
+</div>
 
 <mat-card
   *ngIf="selectedFlight">
@@ -68,4 +51,11 @@
       selectedFlight | json
     }}</pre>
   </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-title>Basket</mat-card-title>
+    <mat-card-content>
+        <pre>{{ basket | json }}</pre>
+    </mat-card-content>
 </mat-card>
