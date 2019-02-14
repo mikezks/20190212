@@ -5,7 +5,7 @@ import { FlightService } from '../services/flight.service';
 import * as fromFlightBooking from '../+state/reducers/flight-booking.reducer';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { FlightsLoadedAction, FlightUpdateAction } from '../+state/actions/flight-booking.actions';
+import { FlightsLoadedAction, FlightUpdateAction, FlightsLoadAction } from '../+state/actions/flight-booking.actions';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -68,7 +68,7 @@ export class FlightSearchComponent implements OnInit {
   }
 
   search(): void {
-    this.flightService
+    /* this.flightService
       .find(this.from, this.to)
       .subscribe(
         flights => {
@@ -77,7 +77,9 @@ export class FlightSearchComponent implements OnInit {
           // console.log(flights);
         },
         errResp => console.error('Error loading flights', errResp)
-      );    
+      );   */  
+    
+    this.store.dispatch(new FlightsLoadAction(this.from, this.to));
   }
 
   delay(): void {
