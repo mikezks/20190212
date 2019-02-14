@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 import { Flight } from '../../entities/flight';
 import { FlightService } from '../services/flight.service';
+import * as fromFlightBooking from '../+state/reducers/flight-booking.reducer';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { FlightsLoadedAction, FlightUpdateAction } from '../+state/actions/flight-booking.actions';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-flight-search',
@@ -9,7 +14,6 @@ import { FlightService } from '../services/flight.service';
   styleUrls: ['./flight-search.component.scss']
 })
 export class FlightSearchComponent implements OnInit {
-
   from: string = 'Graz';
   to: string = 'Hamburg';
   flights: Flight[] = [
@@ -28,6 +32,7 @@ export class FlightSearchComponent implements OnInit {
     date: '',
     delayed: false
   };
+  flights$: Observable<Flight[]>;
 
   myFlight: Flight;
   myFlights: Flight[];
@@ -37,7 +42,9 @@ export class FlightSearchComponent implements OnInit {
     "5": true
   };
 
-  constructor(private flightService: FlightService) { }
+  constructor(
+    private flightService: FlightService,
+    private store: Store<fromFlightBooking.FeatureState>) { }
 
   ngOnInit(): void {
     this.flights = this.flightService.flights;
@@ -52,6 +59,12 @@ export class FlightSearchComponent implements OnInit {
     this.myFlights = [
       ...this.flights.slice(0, 1)
     ];
+
+    this.flights$ =
+      this.store
+        .pipe(
+          select(state => state.flightBooking.flights)
+        );
   }
 
   search(): void {
@@ -59,11 +72,31 @@ export class FlightSearchComponent implements OnInit {
       .find(this.from, this.to)
       .subscribe(
         flights => {
-          this.flights = flights;
-          console.log(flights);
+          this.store.dispatch(new FlightsLoadedAction(flights));
+          // this.flights = flights;
+          // console.log(flights);
         },
         errResp => console.error('Error loading flights', errResp)
       );    
+  }
+
+  delay(): void {
+    this.flights$
+      .pipe(
+        take(1)
+      )
+      .subscribe(flights => {
+        const flight = flights[0];
+
+        const oldDate = new Date(flight.date);
+        const newDate = new Date(oldDate.getTime() + 15 * 60 * 1000);
+        const newFlight = {
+          ...flight,
+          date: newDate.toISOString()
+        };
+
+        this.store.dispatch(new FlightUpdateAction(newFlight));
+      });
   }
 
   select(f: Flight): void {

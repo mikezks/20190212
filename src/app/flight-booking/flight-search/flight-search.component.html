@@ -1,61 +1,72 @@
-<mat-card>
-  <mat-card-title>Search for Flights</mat-card-title>
-  <mat-card-content>
-
-    <mat-form-field>
-      <input
-        matInput
-        name="from"
-        placeholder="from"
-        [(ngModel)]="from">
-    </mat-form-field>
-    <br>
-
-    <mat-form-field>
-      <input
-        matInput
-        name="to"
-        placeholder="to"
-        [(ngModel)]="to">
-    </mat-form-field>
-
-  </mat-card-content>
-  <mat-card-actions>
-
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="!from || !to"
-      (click)="search()">
-      Search</button>
-  </mat-card-actions>
-</mat-card>
-
-<div class="row">
-    <div
-      *ngFor="let f of flights" 
-      class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <app-flight-card
-          [item]="f"
-          [selected]="basket[f.id]"
-          (selectedChange)="basket[f.id] = $event">
-      </app-flight-card>
-    </div>
-</div>
-
-<mat-card
-  *ngIf="selectedFlight">
-  <mat-card-title>Selected Flight</mat-card-title>
-  <mat-card-content>
-    <pre>{{
-      selectedFlight | json
-    }}</pre>
-  </mat-card-content>
-</mat-card>
-
-<mat-card>
-    <mat-card-title>Basket</mat-card-title>
+<ng-container
+  *ngIf="{
+            flights: flights$ | async
+          } as componentData">
+  <mat-card>
+    <mat-card-title>Search for Flights</mat-card-title>
     <mat-card-content>
-        <pre>{{ basket | json }}</pre>
+
+      <mat-form-field>
+        <input
+          matInput
+          name="from"
+          placeholder="from"
+          [(ngModel)]="from">
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <input
+          matInput
+          name="to"
+          placeholder="to"
+          [(ngModel)]="to">
+      </mat-form-field>
+
     </mat-card-content>
-</mat-card>
+    <mat-card-actions>
+
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!from || !to"
+        (click)="search()">
+        Search</button>
+      
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="delay()">
+        Delay 1st Flight</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <div class="row">
+      <div
+        *ngFor="let f of componentData.flights" 
+        class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <app-flight-card
+            [item]="f"
+            [selected]="basket[f.id]"
+            (selectedChange)="basket[f.id] = $event">
+        </app-flight-card>
+      </div>
+  </div>
+
+  <mat-card
+    *ngIf="selectedFlight">
+    <mat-card-title>Selected Flight</mat-card-title>
+    <mat-card-content>
+      <pre>{{
+        selectedFlight | json
+      }}</pre>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+      <mat-card-title>Basket</mat-card-title>
+      <mat-card-content>
+          <pre>{{ basket | json }}</pre>
+      </mat-card-content>
+  </mat-card>
+</ng-container>

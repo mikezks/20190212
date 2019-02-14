@@ -42,6 +42,7 @@ export class FlightTypeaheadComponent implements OnInit, OnDestroy {
   }
 
   initTypeahead(): void {
+
     this.flights$ =
       this.control.valueChanges
         .pipe(
