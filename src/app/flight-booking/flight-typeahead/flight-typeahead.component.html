@@ -1,0 +1,40 @@
+<mat-card>
+  <mat-card-title>Search for Flights</mat-card-title>
+  <mat-card-content>
+    <p *ngIf="{
+                timer: timerObservable$ | async 
+              } as componentData">
+      Timer 1: {{ componentData.timer }}
+      <br>
+      Timer 2: {{ componentData.timer }}
+    </p>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-title>Flights Typeahead</mat-card-title>
+  <mat-card-subtitle *ngIf="loading">...loading...</mat-card-subtitle>
+  <mat-card-content>
+
+    <mat-form-field>
+      <input
+        matInput
+        [formControl]="control"
+        placeholder="from">
+    </mat-form-field>
+
+  </mat-card-content>
+  <mat-card-actions></mat-card-actions>
+</mat-card>
+
+<div
+  class="row"
+  *ngIf="flights$ | async as flights">
+  <div
+    *ngFor="let f of flights"
+    class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <app-flight-card
+      [item]="f">
+    </app-flight-card>
+  </div>
+</div>
